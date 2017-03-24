@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cornerstone work in progress</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="main-background">
+      <div class="cornerstone-design">
+          <h1>Cornerstone Design Group</h1></div>
+        <div ui-sref="home" class="head-banner">
+            <h1 class="red-cdg">CDG</h1>
+            <div class="under-text">
+                <h3 class="under-text-spacing">architecture</h3>
+                <h3 class="under-text-spacing ">development</h3>
+                <h3 class="under-text-spacing ">planning</h3>
+            </div>
+        </div>
+
+        <div class="left-bar"><div class="red-bar"></div></div>
+
+        <ui-view></ui-view>
+
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js">
+        </script>
+        <script src="../dist/all.js"></script>
+
+
+        <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+        <div>
+</body>
+
+</html>
