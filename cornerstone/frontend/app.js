@@ -7,54 +7,54 @@ angular.module('myApp', ['ui.router'])
       .state('home', {
         url: '/',
         controller: 'homeCtrl',
-        templateUrl: 'homeView/home.html'
+        templateUrl: '../frontend/homeView/home.html'
       })
       $stateProvider
         .state('about', {
           url: '/about',
           controller: 'aboutCtrl',
-          templateUrl: 'aboutView/about.html'
+          templateUrl: '../frontend/aboutView/about.html'
         })
         $stateProvider
           .state('commercial', {
             url: '/projects/commercial',
             controller: 'commercialCtrl',
-            templateUrl: 'commercialView/commercial.html'
+            templateUrl: '../frontend/commercialView/commercial.html'
           })
       $stateProvider
             .state('contacts', {
               url: '/contacts',
               controller: 'contactsCtrl',
-              templateUrl: 'contactsView/contacts.html'
+              templateUrl: '../frontend/contactsView/contacts.html'
       })
       $stateProvider
             .state('institutional', {
               url: '/projects/institutional',
               controller: 'instCtrl',
-              templateUrl: 'institutionalView/inst.html'
+              templateUrl: '../frontend/institutionalView/inst.html'
       })
       $stateProvider
             .state('mission', {
               url: '/mission',
               controller: 'missionCtrl',
-              templateUrl: 'missionView/mission.html'
+              templateUrl: '../frontend/missionView/mission.html'
       })
       $stateProvider
             .state('portal', {
               url: '/portal',
               controller: 'portalCtrl',
-              templateUrl: 'portalView/portal.html'
+              templateUrl: '../frontend/portalView/portal.html'
       })
       $stateProvider
             .state('projects', {
               url: '/projects',
               controller: 'projectCtrl',
-              templateUrl: 'projectsView/project.html'
+              templateUrl: '../frontend/projectsView/project.html'
       })
       $stateProvider
             .state('residential', {
               url: '/projects/residential',
               controller: 'resCtrl',
-              templateUrl: 'residentialView/res.html'
+              templateUrl: '../frontend/residentialView/res.html'
       })
   })
