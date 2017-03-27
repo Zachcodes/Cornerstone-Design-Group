@@ -6,58 +6,74 @@ angular.module('myApp', ['ui.router']).config(function ($stateProvider, $urlRout
   $stateProvider.state('home', {
     url: '/',
     controller: 'homeCtrl',
-    templateUrl: '../frontend/homeView/home.html'
+    templateUrl: './homeView/home.html'
   });
   $stateProvider.state('about', {
     url: '/about',
     controller: 'aboutCtrl',
-    templateUrl: '../frontend/aboutView/about.html'
+    templateUrl: './aboutView/about.html'
   });
   $stateProvider.state('commercial', {
     url: '/projects/commercial',
     controller: 'commercialCtrl',
-    templateUrl: '../frontend/commercialView/commercial.html'
+    templateUrl: './commercialView/commercial.html'
   });
   $stateProvider.state('contacts', {
     url: '/contacts',
     controller: 'contactsCtrl',
-    templateUrl: '../frontend/contactsView/contacts.html'
+    templateUrl: './contactsView/contacts.html'
   });
   $stateProvider.state('institutional', {
     url: '/projects/institutional',
     controller: 'instCtrl',
-    templateUrl: '../frontend/institutionalView/inst.html'
+    templateUrl: './institutionalView/inst.html'
   });
   $stateProvider.state('mission', {
     url: '/mission',
     controller: 'missionCtrl',
-    templateUrl: '../frontend/missionView/mission.html'
+    templateUrl: './missionView/mission.html'
   });
   $stateProvider.state('portal', {
     url: '/portal',
     controller: 'portalCtrl',
-    templateUrl: '../frontend/portalView/portal.html'
+    templateUrl: './portalView/portal.html'
   });
   $stateProvider.state('projects', {
     url: '/projects',
     controller: 'projectCtrl',
-    templateUrl: '../frontend/projectsView/project.html'
+    templateUrl: './projectsView/project.html'
   });
   $stateProvider.state('residential', {
     url: '/projects/residential',
     controller: 'resCtrl',
-    templateUrl: '../frontend/residentialView/res.html'
+    templateUrl: './residentialView/res.html'
+  });
+  $stateProvider.state('client', {
+    url: '/portal/client',
+    controller: 'clientCtrl',
+    templateUrl: './clientView/client.html'
+  });
+  $stateProvider.state('store', {
+    url: '/client/store',
+    controller: 'storeCtrl',
+    templateUrl: './storeView/store.html'
   });
 });
-'use strict';
-
-angular.module('myApp').controller('contactsCtrl', function ($scope, $location) {});
 'use strict';
 
 angular.module('myApp').controller('aboutCtrl', function ($scope, $location) {});
 'use strict';
 
+angular.module('myApp').controller('clientCtrl', function ($scope, $location) {});
+'use strict';
+
 angular.module('myApp').controller('commercialCtrl', function ($scope, $location) {});
+'use strict';
+
+angular.module('myApp').controller('contactsCtrl', function ($scope, $location) {});
+'use strict';
+
+angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
 'use strict';
 
 angular.module('myApp').controller('instCtrl', function ($scope, $location) {});
@@ -69,10 +85,10 @@ angular.module('myApp').controller('missionCtrl', function ($scope, $location) {
 angular.module('myApp').controller('portalCtrl', function ($scope, $location) {});
 'use strict';
 
-angular.module('myApp').controller('resCtrl', function ($scope, $location) {});
-'use strict';
-
 angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 'use strict';
 
-angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
+angular.module('myApp').controller('resCtrl', function ($scope, $location) {});
+'use strict';
+
+angular.module('myApp').controller('storeCtrl', function ($scope, $location) {});

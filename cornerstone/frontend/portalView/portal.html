@@ -1,7 +1,11 @@
 <div class="main-container-portal">
 
 <h1 class="underline-client">Client Login</h1>
-<div class="input-portal"><input type="text" placeholder="username" class="username-password"></div>
-<div class="input-portal"><input type="text" placeholder="password" class="username-password"></div>
-<button class="login-portal">Login</button>
+<div class="input-portal"><input type="text" placeholder="username" class="username-password" ng-model="username"></div>
+<div class="input-portal"><input type="text" placeholder="password" class="username-password" ng-model="password"></div>
+
+{{username}}
+{{password}}
+
+<a ui-sref="client" class="no-underline"><button class="login-portal">Login</button></a>
 </div>

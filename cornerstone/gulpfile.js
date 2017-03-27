@@ -9,11 +9,15 @@ gulp.task('es6-bundle', function() {
     presets: ['es2015']
   }))
   .pipe(concat('all.js'))
-  .pipe(gulp.dest('./dist'))
+  .pipe(gulp.dest('./frontend/dist'))
 })
 gulp.task('sass', function () {
     gulp.src('./*.sass')
     .pipe(sass())
     .pipe(concat('style.css'))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./frontend/dist'));
 });
+gulp.task('watch', function(){
+  gulp.watch('styles.sass', ['sass']);
+  gulp.watch('./frontend/**/*.js', ['es6-bundle']);
+})
