@@ -1,14 +1,23 @@
-<div class="checkout-box">
-  <div class="floor-plan-box">
-      <h1>Floor plan 1</h1>
-      <img src="http://www.roomsketcher.com/wp-content/uploads/2015/12/RoomSketcher-2D-Floor-Plans.jpg" class="floor-plan-picture">
-    </div>
-    <div class="floor-plan-box">
-        <h1>Floor plan 2</h1>
-        <img src="http://www.roomsketcher.com/wp-content/uploads/2015/12/RoomSketcher-2D-Floor-Plans.jpg" class="floor-plan-picture">
-      </div>
-  </div>
 
-<div>
-<button class="proceed-button">Proceed to checkout</button>
+<div><h1>{{client.clientname}}'s Store</h1></div>
+
+  <div class="floor-plans">
+
+    <div class="floor-plan-box">
+      <div ng-repeat="cart in myCart">
+        {{cart.floor_plan_name}}
+        {{cart.price}}
+      Number of Plans  {{cart.number_of_plans}}
+      <img ng-src="{{cart.image}}" class="floor-plan-picture" />
+      </div>
+      Total Price {{total.price}}
+
+
+  </div>
+</div>
+
+
+
+</div>
+<button class="proceed-button" ui-sref="checkout">Checkout</button>
 </div>

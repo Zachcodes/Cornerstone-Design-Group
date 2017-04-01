@@ -59,15 +59,20 @@ angular.module('myApp', ['ui.router'])
       })
       $stateProvider
             .state('client', {
-              url: '/portal/client',
+              url: '/portal/:client',
               controller: 'clientCtrl',
               templateUrl: './clientView/client.html'
       })
       $stateProvider
-            .state('store', {
-              url: '/client/store',
+            .state('cart', {
+              url: '/cart/?client',
               controller: 'storeCtrl',
               templateUrl: './storeView/store.html'
       })
+      $stateProvider
+            .state('checkout', {
+              url: '/checkout/?client',
+              controller: 'checkoutCtrl',
+              templateUrl: './checkoutView/checkout.html'
+      })
   })
-  

@@ -2,10 +2,6 @@
 
 <h1 class="underline-client">Client Login</h1>
 <div class="input-portal"><input type="text" placeholder="username" class="username-password" ng-model="username"></div>
-<div class="input-portal"><input type="text" placeholder="password" class="username-password" ng-model="password"></div>
-
-{{username}}
-{{password}}
-
-<a ui-sref="client" class="no-underline"><button class="login-portal">Login</button></a>
+<div class="input-portal"><input type="password" placeholder="password" class="username-password" ng-model="password"></div>
+<button class="login-portal" ng-click="login(username, password)">Login</button>
 </div>
