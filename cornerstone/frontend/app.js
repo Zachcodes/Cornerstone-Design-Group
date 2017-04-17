@@ -1,78 +1,105 @@
 angular.module('myApp', ['ui.router'])
-  .config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    .config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
 
 
-    $stateProvider
-      .state('home', {
-        url: '/',
-        controller: 'homeCtrl',
-        templateUrl: './homeView/home.html'
-      })
-      $stateProvider
-        .state('about', {
-          url: '/about',
-          controller: 'aboutCtrl',
-          templateUrl: './aboutView/about.html'
-        })
         $stateProvider
-          .state('commercial', {
-            url: '/projects/commercial',
-            controller: 'commercialCtrl',
-            templateUrl: './commercialView/commercial.html'
-          })
-      $stateProvider
-            .state('contacts', {
-              url: '/contacts',
-              controller: 'contactsCtrl',
-              templateUrl: './contactsView/contacts.html'
-      })
-      $stateProvider
-            .state('institutional', {
-              url: '/projects/institutional',
-              controller: 'instCtrl',
-              templateUrl: './institutionalView/inst.html'
-      })
-      $stateProvider
-            .state('mission', {
-              url: '/mission',
-              controller: 'missionCtrl',
-              templateUrl: './missionView/mission.html'
-      })
-      $stateProvider
+            .state('home', {
+                url: '/',
+                controller: 'homeCtrl',
+                templateUrl: './homeView/home.html'
+            })
+        $stateProvider
+            .state('about', {
+                url: '/about',
+                controller: 'aboutCtrl',
+                templateUrl: './aboutView/about.html'
+            })
+        $stateProvider
+            .state('contact', {
+                url: '/contact',
+                controller: 'contactsCtrl',
+                templateUrl: './contactView/contact.html'
+            })
+        $stateProvider
+            .state('design', {
+                url: '/design',
+                controller: 'designCtrl',
+                templateUrl: './designView/design.html'
+            })
+        $stateProvider
             .state('portal', {
-              url: '/portal',
-              controller: 'portalCtrl',
-              templateUrl: './portalView/portal.html'
-      })
-      $stateProvider
+                url: '/portal',
+                controller: 'portalCtrl',
+                templateUrl: './portalView/portal.html'
+            })
+        $stateProvider
             .state('projects', {
-              url: '/projects',
-              controller: 'projectCtrl',
-              templateUrl: './projectsView/project.html'
-      })
-      $stateProvider
-            .state('residential', {
-              url: '/projects/residential',
-              controller: 'resCtrl',
-              templateUrl: './residentialView/res.html'
-      })
-      $stateProvider
+                url: '/projects',
+                controller: 'projectCtrl',
+                templateUrl: './projectsView/project.html'
+            })
+        $stateProvider
             .state('client', {
-              url: '/portal/:client',
-              controller: 'clientCtrl',
-              templateUrl: './clientView/client.html'
-      })
-      $stateProvider
-            .state('cart', {
-              url: '/cart/?client',
-              controller: 'storeCtrl',
-              templateUrl: './storeView/store.html'
-      })
-      $stateProvider
-            .state('checkout', {
-              url: '/checkout/?client',
-              controller: 'checkoutCtrl',
-              templateUrl: './checkoutView/checkout.html'
-      })
-  })
+                url: '/client/:client',
+                controller: 'clientCtrl',
+                templateUrl: './clientView/client.html',
+                resolve: {
+                  check: function(authService, myService, $location, $q, $state) {
+                    var deferred = $q.defer();
+                    if(authService.checkClientPermission()) {
+                      deferred.resolve()
+                    }
+                    myService.googleLogin().then(function(response) {
+
+                      let client = response.data.client
+                        if(client === true) {
+                          authService.getClientPermission()
+                        }
+
+                      if(authService.checkClientPermission()) {
+                        deferred.resolve()
+                      }
+                      else {
+                        $state.go('portal')
+                        deferred.reject()
+                        alert("You don't have access here")
+                      }
+                    })
+                    return deferred.promise
+                  }//ends check function
+                }
+            })
+          $stateProvider
+            .state('admin', {
+                url: '/admin',
+                controller: 'adminCtrl',
+                templateUrl: './adminView/admin.html',
+                resolve: {
+                  check: function(authService, myService, $location, $q, $state, adminAuth) {
+                    var deferred = $q.defer();
+                    if(adminAuth.checkPermission()) {
+                      deferred.resolve()
+                    }
+                    myService.googleLogin().then(function(response) {
+                      let data = response.data.admin
+                        if(data === true) {
+                
+                          adminAuth.getPermission()
+                        }
+
+                      if(adminAuth.checkPermission()) {
+                        deferred.resolve()
+                      }
+                      else {
+                        $state.go('portal')
+                        deferred.reject()
+                        alert("You don't have access here")
+                      }
+                    })
+                    return deferred.promise
+                  }//ends check function
+                }
+            })
+
+    })

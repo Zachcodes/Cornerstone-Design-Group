@@ -1,7 +1,5 @@
-SELECT *
-from clients_login
-join client_info
-	on clients_login.id = client_info.client_id;
-
-
--- this will join my clients login table and my clients info table together into one 
+select client_login.username, client.name, client.id, client.name
+from client
+join client_login
+on client_login.client_id = client.id
+where username = $1;

@@ -1,7 +1,35 @@
-<div class="main-container-portal">
+<div class=".container-fluid" id="container-portal">
 
-<h1 class="underline-client">Client Login</h1>
-<div class="input-portal"><input type="text" placeholder="username" class="username-password" ng-model="username"></div>
-<div class="input-portal"><input type="password" placeholder="password" class="username-password" ng-model="password"></div>
-<button class="login-portal" ng-click="login(username, password)">Login</button>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+            <div class="row">
+                <form>
+                    <div class="form-group">
+
+                        <h1>Client Login</h1>
+
+                        <label for="client-email">Username</label>
+                        <input type="text" class="form-control" placeholder="username" id="client-email" ng-model="clientUsername">
+
+
+                        <label for="password-input">Password</label>
+                        <input type="password" class="form-control" id="password-input" placeholder="Password" ng-model="clientPassword">
+
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Remember me
+                          </label>
+                        </div>
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-default" ng-click="login(clientUsername, clientPassword)" id="portal-login-button">Login</button>
+                        <button id="portal-login-button" type="submit" class="btn btn-default"><a href="/auth/google" id="white-text"><i class="fa fa-google-plus" aria-hidden="true" id="google-plus"></i>Login</a></button>
+                      </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </div>

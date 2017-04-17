@@ -13,25 +13,15 @@ angular.module('myApp', ['ui.router']).config(function ($stateProvider, $urlRout
     controller: 'aboutCtrl',
     templateUrl: './aboutView/about.html'
   });
-  $stateProvider.state('commercial', {
-    url: '/projects/commercial',
-    controller: 'commercialCtrl',
-    templateUrl: './commercialView/commercial.html'
-  });
-  $stateProvider.state('contacts', {
-    url: '/contacts',
+  $stateProvider.state('contact', {
+    url: '/contact',
     controller: 'contactsCtrl',
-    templateUrl: './contactsView/contacts.html'
+    templateUrl: './contactView/contact.html'
   });
-  $stateProvider.state('institutional', {
-    url: '/projects/institutional',
-    controller: 'instCtrl',
-    templateUrl: './institutionalView/inst.html'
-  });
-  $stateProvider.state('mission', {
-    url: '/mission',
-    controller: 'missionCtrl',
-    templateUrl: './missionView/mission.html'
+  $stateProvider.state('design', {
+    url: '/design',
+    controller: 'designCtrl',
+    templateUrl: './designView/design.html'
   });
   $stateProvider.state('portal', {
     url: '/portal',
@@ -43,230 +33,418 @@ angular.module('myApp', ['ui.router']).config(function ($stateProvider, $urlRout
     controller: 'projectCtrl',
     templateUrl: './projectsView/project.html'
   });
-  $stateProvider.state('residential', {
-    url: '/projects/residential',
-    controller: 'resCtrl',
-    templateUrl: './residentialView/res.html'
-  });
   $stateProvider.state('client', {
-    url: '/portal/:client',
+    url: '/client/:client',
     controller: 'clientCtrl',
-    templateUrl: './clientView/client.html'
+    templateUrl: './clientView/client.html',
+    resolve: {
+      check: function check(authService, myService, $location, $q, $state) {
+        var deferred = $q.defer();
+        if (authService.checkClientPermission()) {
+          deferred.resolve();
+        }
+        myService.googleLogin().then(function (response) {
+
+          var client = response.data.client;
+          if (client === true) {
+            authService.getClientPermission();
+          }
+
+          if (authService.checkClientPermission()) {
+            deferred.resolve();
+          } else {
+            $state.go('portal');
+            deferred.reject();
+            alert("You don't have access here");
+          }
+        });
+        return deferred.promise;
+      } //ends check function
+    }
   });
-  $stateProvider.state('cart', {
-    url: '/cart/?client',
-    controller: 'storeCtrl',
-    templateUrl: './storeView/store.html'
-  });
-  $stateProvider.state('checkout', {
-    url: '/checkout/?client',
-    controller: 'checkoutCtrl',
-    templateUrl: './checkoutView/checkout.html'
+  $stateProvider.state('admin', {
+    url: '/admin',
+    controller: 'adminCtrl',
+    templateUrl: './adminView/admin.html',
+    resolve: {
+      check: function check(authService, myService, $location, $q, $state, adminAuth) {
+        var deferred = $q.defer();
+        if (adminAuth.checkPermission()) {
+          deferred.resolve();
+        }
+        myService.googleLogin().then(function (response) {
+          var data = response.data.admin;
+          if (data === true) {
+
+            adminAuth.getPermission();
+          }
+
+          if (adminAuth.checkPermission()) {
+            deferred.resolve();
+          } else {
+            $state.go('portal');
+            deferred.reject();
+            alert("You don't have access here");
+          }
+        });
+        return deferred.promise;
+      } //ends check function
+    }
   });
 });
 
-angular.module('myApp').service('myService', function ($http) {
-  this.login = function () {
+angular.module('myApp').service('myService', function ($http, authService) {
+  //client service calls
+  this.getClient = function (username) {
     return $http({
       method: 'GET',
-      url: 'http://localhost:3200/clients/login'
+      url: 'http://localhost:3200/client/info?username=' + username
     });
-  }, this.getPlans = function () {
+  }, this.checkLogin = function (username, password) {
     return $http({
       method: 'GET',
-      url: 'http://localhost:3200/floorplans'
+      url: 'http://localhost:3200/client/login?username=' + username + '&password=' + password
     });
-  }, this.getClient = function () {
+  }, this.getFiles = function (clientid) {
     return $http({
       method: 'GET',
-      url: 'http://localhost:3200/clientinfo'
+      url: 'http://localhost:3200/client/files?clientid=' + clientid
     });
-  }, this.getCart = function () {
-    return $http({
-      method: 'GET',
-      url: 'http://localhost:3200/clientcart'
-    });
-  }, this.getJoined = function () {
-    return $http({
-      method: 'GET',
-      url: 'http://localhost:3200/joinedclient'
-    });
-  }, this.updateCart = function (order_id, product_id) {
+  }, this.getInvoices = function (clientid) {
+    return $http.get('http://localhost:3200/client/invoices?clientid=' + clientid);
+  };
+  this.getClientName = function () {
+    return $http.get('http://localhost:3200/client/name');
+  },
+
+  //Admin Service calls
+  this.newClient = function (name, email) {
     return $http({
       method: 'POST',
-      url: 'http://localhost:3200/addproduct',
+      url: 'http://localhost:3200/new/client',
       data: {
-        order_id: order_id,
-        product_id: product_id
+        name: name,
+        email: email
       }
     });
-  }, this.grabTotal = function () {
+  }, this.getNewClient = function (name, email) {
+    return $http.get('http://localhost:3200/new/client/created');
+  }, this.newClientLogin = function (username, password, client_id) {
+    return $http({
+      method: 'POST',
+      url: 'http://localhost:3200/new/client/login',
+      data: {
+        username: username,
+        password: password,
+        client_id: client_id
+      }
+    });
+  }, this.addFile = function (filename, filelink, client_id) {
+    return $http({
+      method: 'POST',
+      url: 'http://localhost:3200/add/file',
+      data: {
+        filename: filename,
+        filelink: filelink,
+        client_id: client_id
+      }
+    });
+  }, this.addInvoice = function (date, hours, client_id, price, total) {
+    return $http({
+      method: 'POST',
+      url: 'http://localhost:3200/add/invoice',
+      data: {
+        date: date,
+        hours: hours,
+        client_id: client_id,
+        price: price,
+        total: total
+      }
+    });
+  },
+
+  //Authentication service calls
+  this.checkAdmin = function (username, password) {
     return $http({
       method: 'GET',
-      url: 'http://localhost:3200/total'
+      url: 'http://localhost:3200/admin/login?username=' + username + '&password=' + password
     });
-  }, this.updateProduct = function (count, orderid, productid) {
+  }, this.googleLogin = function () {
     return $http({
-      method: 'PUT',
-      url: 'http://localhost:3200/updateproduct',
+      method: 'GET',
+      url: '/api/check/admin'
+    });
+  },
+
+  //Question service calls
+  this.newQuestion = function (question, email) {
+    return $http({
+      method: 'POST',
+      url: '/new/question',
       data: {
-        count: count,
-        orderid: orderid,
-        productid: productid
+        question: question,
+        email: email
       }
+    });
+  }, this.grabQuestions = function () {
+    return $http({
+      method: 'GET',
+      url: '/get/questions'
+    });
+  }, this.deleteQuestion = function (id) {
+    console.log(id);
+    return $http({
+      method: 'DELETE',
+      url: '/delete/question/' + id
     });
   };
 });
 
 angular.module('myApp').controller('aboutCtrl', function ($scope, $location) {});
 
-angular.module('myApp').controller('clientCtrl', function ($scope, $location, myService) {
+angular.module('myApp').controller('adminCtrl', function ($scope, $location, myService) {
 
-  $scope.plans = function () {
-    myService.getPlans().then(function (response) {
-      var plans = response.data;
-      $scope.allPlans = plans;
+  var getQuestions = function getQuestions() {
+    myService.grabQuestions().then(function (response) {
+      var data = response.data;
+      $scope.questions = data;
     });
   };
-  $scope.plans();
+  getQuestions();
 
-  $scope.getInfo = function () {
-    myService.getClient().then(function (response) {
+  $scope.clientNames = function () {
+
+    myService.getClientName().then(function (response) {
       var data = response.data;
+      $scope.names = data;
+    });
+  };
+  $scope.clientNames();
+
+  $scope.newClient = function (name, email, username, password, client_id) {
+    myService.newClient(name, email).then(function () {
+      myService.getNewClient().then(function (response) {
+        client_id = response.data[0].id;
+        myService.newClientLogin(username, password, client_id).then(function () {
+          myService.getClientName().then(function (response) {
+            var data = response.data;
+            $scope.names = data;
+          });
+          $scope.name = '';
+          $scope.email = '';
+          $scope.username = '';
+          $scope.password = '';
+        });
+      });
+    });
+  };
+
+  $scope.selectClientFile = function (name) {
+    $scope.clientFile = name;
+  };
+
+  $scope.selectClientInvoice = function (name) {
+    $scope.clientInvoice = name;
+  };
+
+  $scope.addFile = function (filename, filelink, client_id) {
+    myService.addFile(filename, filelink, client_id);
+    $scope.filename = '';
+    $scope.filelink = '';
+    $scope.clientFile = '';
+  };
+
+  $scope.addInvoice = function (date, hours, client_id, price, total) {
+    myService.addInvoice(date, hours, client_id, price, total);
+    $scope.date = '';
+    $scope.hours = '';
+    $scope.clientInvoice = '';
+    $scope.price_per_hour = '';
+    $scope.total_price = '';
+  };
+
+  this.reply = false;
+  $scope.response = false;
+  $scope.response_email;
+  $scope.replying = function () {
+
+    if (this.reply) {
+      $scope.response = false;
+      this.reply = false;
+    } else {
+      $scope.response_email = this.question;
+
+      $scope.response = true;
+      this.reply = true;
+    }
+  };
+
+  $scope.replied = function (id) {
+    id = Number(id);
+    $scope.response = false;
+    myService.deleteQuestion(id).then(function () {
+      getQuestions();
+    });
+  };
+});
+
+angular.module('myApp').controller('clientCtrl', function ($scope, $location, myService) {
+
+  var user = $location.$$path.slice(8);
+
+  $scope.getInfo = function (username) {
+    myService.getClient(username).then(function (response) {
+      // let data = response.data
+      // for (let i = 0; i < data.length; i++) {
+      //     if (`/portal/${data[i].name}` === $location.$$path) {
+      //         $scope.client = data[i];
+      //         break;
+      //     }
+      // }
+      var data = response.data;
+      console.log(data);
       for (var i = 0; i < data.length; i++) {
-        if ('/portal/' + data[i].name === $location.$$path) {
-          $scope.client = data[i];
-          break;
-        }
+        $scope.client = data[i];
+        myService.getFiles($scope.client.id).then(function (response) {
+          $scope.files = response.data;
+        });
+        myService.getInvoices($scope.client.id).then(function (response) {
+          $scope.theNumbers = [];
+          $scope.invoices = response.data;
+          // var theNumbers = $scope.invoices.forEach(function(element) {
+          //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
+          // })
+          for (var _i = 0; _i < $scope.invoices.length; _i++) {
+            $scope.theNumbers.push(Number($scope.invoices[_i].total_price.replace(/[^0-9\.]+/g, "")));
+          }
+          $scope.sum = $scope.theNumbers.reduce(function (a, b) {
+            return a + b;
+          }, 0);
+          $scope.amount = $scope.sum * 100;
+
+          // for(let i = 0; i < $scope.theNumbers.length; i++) {
+          //   $scope.theNumbers[i]
+          // }
+          // var theNumbers = $scope.invoices.map(function(element) {
+          //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
+          // })
+        });
       }
     });
   };
-  $scope.getInfo();
+  $scope.getInfo(user);
 
-  // $scope.addToCart = function(count, orderid, productid) {
-  //   myService.updateProduct(count, orderid, productid).then(function(response) {
-  //     console.log(response)
-  //   })
-  // }
-  // $scope.addToCart(100, 2, 1)
+  var handler = StripeCheckout.configure({
+    key: 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc',
+    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+    locale: 'auto',
+    token: function token(_token) {
+      // You can access the token ID with `token.id`.
+      // Get the token ID to your server-side code for use.
+    }
+  });
 
-  //If Id's match, update the count of the product. If the id's do not match meaning that the product is not in the orders_products table, it will create a new row that contains the id of the order and the product id
-  // $scope.addToCart = function(count, order_id, product_id) {
-  //
-  //     myService.getCart().then(function(response) {
-  //         let data = response.data
-  //         var plans = $scope.allPlans
-  //         console.log(data)
-  //         console.log(plans)
-  //         var found = false;
-  //         if(data.length) {
-  //
-  //           data.forEach(function(product){
-  //             var foundPlan = plans.find(function(plan) {
-  //               return (product.product_id === product_id && product.clientid === order_id)
-  //             })
-  //
-  //             if (foundPlan && !found) {
-  //               found = true;
-  //               myService.updateProduct(count, order_id, product_id).then(function(response){
-  //                 // console.log('IT works')
-  //               })
-  //               console.log('IT works')
-  //             } else if (!found ){
-  //               myService.updateCart(order_id, product_id).then(function(response) {
-  //                 console.log(response)
-  //               })
-  //             }
-  //           })
-  //         } else {
-  //           myService.updateCart(order_id, product_id).then(function(response) {
-  //             console.log(response)
-  //           })
-  //         }
-  //
-  //
-  //
-  //     })
+  document.getElementById('customButton').addEventListener('click', function (e) {
+    // Open Checkout with further options:
+    handler.open({
+      name: 'Architecture Design Firm',
+      description: 'Payment For Services Rendered',
+      amount: $scope.amount
+    });
+    // data-zip-code="true"
+    e.preventDefault();
+  });
+  window.addEventListener('popstate', function () {
+    handler.close();
+  });
+
+  // $scope.getFiles = function() {
+  //   console.log($scope.client)
   // }
-  // $scope.addToCart(20, 2, 2)
+  // $scope.getFiles()
 
 });
 
-angular.module('myApp').controller('commercialCtrl', function ($scope, $location) {});
+angular.module('myApp').controller('designCtrl', function ($scope, $location) {});
 
-angular.module('myApp').controller('contactsCtrl', function ($scope, $location) {});
+angular.module('myApp').controller('contactsCtrl', function ($scope, $location, myService) {
+
+  $scope.submitQuestion = function (question, email) {
+
+    myService.newQuestion(question, email);
+    $scope.question = '';
+    $scope.email = '';
+  };
+});
 
 angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
 
-angular.module('myApp').controller('instCtrl', function ($scope, $location) {});
+angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q, myService, authService, adminAuth) {
 
-angular.module('myApp').controller('missionCtrl', function ($scope, $location) {});
+  $scope.login = function (username, password) {
+    password = password.toString();
+    var exists = false;
+    myService.checkLogin(username, password).then(function (response) {
 
-angular.module('myApp').controller('portalCtrl', function ($scope, $location, myService) {
-
-  $scope.login = function (name, password) {
-    myService.login().then(function (response) {
-      var noMatch = void 0;
+      var checkAdminLogin = function checkAdminLogin() {
+        myService.checkAdmin(username, password).then(function (response) {
+          var data = response.data;
+          if (data.length === 0) {
+            $scope.clientUsername = '';
+            $scope.clientPassword = '';
+            alert('Please try again');
+          } else if (data[0].admin_username === username && data[0].admin_password === password) {
+            exists = true;
+            adminAuth.getPermission();
+            $location.path('/admin');
+          }
+        });
+      }; //ends checkadminlogin
       var data = response.data;
-      console.log(response.data);
-      for (var i = 0; i < data.length; i++) {
-        if (name === data[i].name && password === data[i].password) {
-          noMatch = false;
-          $location.path('/portal/' + data[i].name);
-          break;
-        } else {
-          noMatch = true;
-        }
+      if (data.length === 0) {
+        checkAdminLogin();
+      } else if (data[0].username === username && data[0].password === password) {
+        exists = true;
+        authService.getClientPermission();
+        $location.path('/client/' + data[0].username);
       }
-      if (noMatch === true) {
-        alert('Please try again');
-      }
-      $scope.username = '';
-      $scope.password = '';
+    }); //end myservice.checkLogin
+
+  }; //ends scope.login
+
+
+  $scope.googleLogin = function () {
+    console.log('Firing off function');
+    myService.googleLogin().then(function (response) {
+      console.log(response);
     });
   };
 });
 
 angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
-angular.module('myApp').controller('resCtrl', function ($scope, $location) {});
+angular.module('myApp').factory('adminAuth', function () {
 
-angular.module('myApp').controller('storeCtrl', function ($scope, $location, myService) {
-
-  $scope.plans = function () {
-
-    myService.getJoined().then(function (response) {
-      var data = response.data;
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].name === $location.$$search.client) {
-          $scope.client = data[i];
-          break;
-        }
-      }
-    });
-
-    myService.getCart().then(function (response) {
-      var data = response.data;
-      $scope.myCart = [];
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].clientid === $scope.client.client_id) {
-          $scope.myCart.push(data[i]);
-        }
-      }
-      console.log($scope.myCart);
-    }).then(function () {
-      myService.grabTotal().then(function (response) {
-        var data = response.data;
-        $scope.total = data[0];
-      });
-    });
+  var obj = {};
+  this.access = false;
+  obj.getPermission = function () {
+    this.access = true;
   };
-
-  $scope.plans();
-
-  $scope.addProduct = function (order_id, product_id) {
-    myService.updateCart(order_id, product_id).then(function (response) {
-      console.log(response);
-    });
+  obj.checkPermission = function () {
+    return this.access;
   };
+  return obj;
+});
+
+angular.module('myApp').factory('authService', function () {
+
+  var obj = {};
+  this.access = false;
+  obj.getClientPermission = function () {
+    this.access = true;
+  };
+  obj.checkClientPermission = function () {
+    return this.access;
+  };
+  return obj;
 });

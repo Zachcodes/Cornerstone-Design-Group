@@ -1,0 +1,137 @@
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+          <hr>
+            <h2 class="text-center">New Client</h2>
+            <form>
+                <div class="form-group">
+                    <label for="admin-fullname-input">Full Name</label>
+                    <input type="text" class="form-control" id="admin-fullname-input" placeholder="John Snow" ng-model="name">
+                </div>
+                <div class="form-group">
+                    <label for="admin-email-input">Email address</label>
+                    <input type="email" class="form-control" id="admin-email-input" placeholder="Email" ng-model="email">
+                </div>
+                <div class="form-group">
+                    <label for="admin-username-input">Username</label>
+                    <input type="text" class="form-control" id="admin-username-input" placeholder="Username" ng-model="username">
+                </div>
+                <div class="form-group">
+                    <label for="admin-password-input">Password</label>
+                    <input type="text" class="form-control" id="admin-password-input" placeholder="Password" ng-model="password">
+                </div>
+
+                <button type="submit" class="btn btn-default" ng-click="newClient(name, email, username, password, 1)">Submit</button>
+            </form>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+            <h2 class="text-center">File Upload</h2>
+            <form>
+                <div class="form-group">
+                    <label for="admin-filename-input">File Name</label>
+                    <input type="text" class="form-control" id="admin-filename-input" placeholder="File Name" ng-model="filename">
+                </div>
+
+                <div class="form-group">
+                    <label for="admin-fileupload-input">File Upload</label>
+                    <input type="text" id="admin-fileupload-input" ng-model="filelink" placeholder="somefile@file" class="form-control">
+
+                </div>
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose Client
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="name in names" ng-click="selectClientFile(name)">{{name.name}}</li>
+
+                  </ul>
+                </div>
+                <h3>{{clientFile.name}}</h3>
+
+                <button type="submit" class="btn btn-default" ng-click="addFile(filename, filelink, clientFile.id)">Submit</button>
+            </form>
+
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+            <h2 class="text-center">Invoice Form</h2>
+            <form>
+
+                <div class="form-group">
+                    <label for="admin-dates-input">Billing Period</label>
+                    <input type="text" class="form-control" id="admin-dates-input" placeholder="ex 12/23-1/14" ng-model="date">
+
+
+
+                </div>
+                <div class="form-group">
+                    <label for="admin-hours-input">Hours</label>
+                    <input type="number" class="form-control" id="admin-hours-input" placeholder="Hours worked" ng-model="hours">
+                </div>
+                <div class="form-group">
+                    <label for="admin-fee-input">Fee Per Hour</label>
+                    <input type="text" class="form-control" id="admin-fee-input" placeholder="Fee per hour" ng-model="price_per_hour">
+                </div>
+                <div class="form-group">
+                    <label for="admin-invoice-input">Invoice Amount</label>
+                    <input type="text" class="form-control" id="admin-invoice-input" placeholder="Invoice Amount" ng-model="total_price">
+                </div>
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose Client
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="name in names" ng-click="selectClientInvoice(name)">{{name.name}}</li>
+
+                  </ul>
+                </div>
+                <h3>{{clientInvoice.name}}</h3>
+                <button type="submit" class="btn btn-default" ng-click="addInvoice(date, hours, clientInvoice.id, price_per_hour, total_price)">Submit</button>
+            </form>
+
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+            <h2 class="text-center">Contact Questions</h2>
+
+            <table class="table table-striped table-bordered table-hover table-responsive" id="white-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Email</th>
+                  <th>Response Status</th>
+                  <th>Reply</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="question in questions">
+                <td>{{question.question}}</td>
+              <td>{{question.response_email}}</td>
+              <td>{{question.response_status}}</td>
+              <td><button ng-click="replying()">Reply</button><button type="button" class="close" aria-label="Close" ng-show="reply" ng-click="replying()"><span aria-hidden="true">&times;</span></button></td>
+            </tr>
+          </tbody>
+          </table>
+          <form ng-show="response">
+            <div class="form-group">
+              <label for="response-textarea">Replying to {{response_email.response_email}}</label>
+              <textarea class="form-control" rows="3" id="response-textarea"></textarea>
+              <button ng-click="replied(response_email.id)">Submit</button>
+            </div>
+          </form>
+        </div>
+    </div>
+
+
+
+</div>

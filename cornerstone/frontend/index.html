@@ -3,42 +3,125 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Cornerstone work in progress</title>
+    <title>Architecture Design Firm</title>
     <link rel="stylesheet" href="./dist/style.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Keania One' rel='stylesheet'>
+    <link href='//fonts.googleapis.com/css?family=Mukta Vaani' rel='stylesheet'>
+    <link href='//fonts.googleapis.com/css?family=Anonymous Pro' rel='stylesheet'>
+    <style>
+        .carousel-inner>.item>img,
+        .carousel-inner>.item>a>img {
+            width: 70%;
+            margin: auto;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-    <div class="main-background">
-      <div class="cornerstone-design">
-          <h1>Cornerstone Design Group</h1></div>
-        <div ui-sref="home" class="head-banner">
-            <h1 class="red-cdg">CDG</h1>
-            <div class="under-text">
-                <h3 class="under-text-spacing">architecture</h3>
-                <h3 class="under-text-spacing ">development</h3>
-                <h3 class="under-text-spacing ">planning</h3>
+<body id="body-padding">
+
+
+
+
+        <div id="main" class=".container-fluid">
+            <div class="jumbotron" id="header">
+
+
+
+
+
+
+              <div class="row">
+              <div class="col-xs-6 col-sm-5 col-md-5">
+                <div ui-sref="home"><h2 id="architecture-design" class="text-uppercase">Architecture Design Firm</h2></div>
+
+              </div>
+
+
+
+              <div class="col-xs-2 col-xs-offset-4 col-sm-5 col-sm-offset-2 col-md-5 col-md-offset-2">
+                <ul class="list-inline" id="front-page-text">
+                  <li ><a id="front-nav" ui-sref="design">Design</a></li>
+
+
+
+                <li ><a id="front-nav" ui-sref="about">About</a></li>
+
+
+                <li ><a id="front-nav" ui-sref="contact">Contact</a></li>
+
+
+                <li ><a id="front-nav" ui-sref="projects">Projects</a></li>
+
+
+
+                <li ><a id="front-nav" ui-sref="portal">Portal</a></li>
+
+                </ul>
+
+                <div class="dropdown">
+
+                    <i class="fa fa-bars dropdown-toggle" aria-hidden="true" id="hamburger-menu" data-toggle="dropdown"></i>
+                    <ul class="dropdown-menu dropdown-menu-right" id="dropdown-hamburger">
+                        <li><a ui-sref="design">Design</a></li>
+
+
+
+                        <li><a ui-sref="about">About</a></li>
+
+
+                        <li><a ui-sref="contact">Contact</a></li>
+
+
+                        <li><a ui-sref="projects">Projects</a></li>
+
+
+
+                        <li><a ui-sref="portal">Portal</a></li>
+                    </ul>
+                </div>
+
+              </div>
+
             </div>
+
+            </div>
+
+            <ui-view></ui-view>
         </div>
+      </div>
 
-        <div class="left-bar"><div class="red-bar"></div></div>
+<!--
 
-        <ui-view></ui-view>
+      <footer>
+        <div class="footer" id="footer-index">
+          <div class="container narrow row-fluid">
+            <div class="span4">
+            </div>
+            <div class="span3">
+            </div>
+            <div class="span5">
+            </div>
+          </div>
+        </div>
+      </footer> -->
 
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js">
+    </script>
+    <script src="./dist/all.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js">
-        </script>
-        <script src="./dist/all.js"></script>
-
-        <script src="https://use.fontawesome.com/59725c5d14.js"></script>
+    <script src="https://use.fontawesome.com/59725c5d14.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
 
 
-        <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-        <div>
 </body>
 
 </html>

@@ -1,73 +1,81 @@
 angular.module('myApp').controller('clientCtrl', function($scope, $location, myService) {
 
 
-    $scope.plans = function() {
-        myService.getPlans().then(function(response) {
-            let plans = response.data
-            $scope.allPlans = plans;
-        })
-    }
-    $scope.plans()
+  var user = $location.$$path.slice(8)
 
-    $scope.getInfo = function() {
-        myService.getClient().then(function(response) {
+    $scope.getInfo = function(username) {
+        myService.getClient(username).then(function(response) {
+            // let data = response.data
+            // for (let i = 0; i < data.length; i++) {
+            //     if (`/portal/${data[i].name}` === $location.$$path) {
+            //         $scope.client = data[i];
+            //         break;
+            //     }
+            // }
             let data = response.data
-            for (let i = 0; i < data.length; i++) {
-                if (`/portal/${data[i].name}` === $location.$$path) {
-                    $scope.client = data[i];
-                    break;
+            console.log(data)
+            for(let i = 0; i< data.length; i++) {
+              $scope.client = data[i];
+              myService.getFiles($scope.client.id).then(function(response){
+                $scope.files = response.data
+              })
+              myService.getInvoices($scope.client.id).then(function(response) {
+                $scope.theNumbers = [];
+                $scope.invoices = response.data
+                // var theNumbers = $scope.invoices.forEach(function(element) {
+                //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
+                // })
+                for(let i = 0; i < $scope.invoices.length; i++) {
+                  $scope.theNumbers.push(Number($scope.invoices[i].total_price.replace(/[^0-9\.]+/g,"")))
                 }
+                $scope.sum = $scope.theNumbers.reduce((a, b) => a + b, 0);
+                $scope.amount = $scope.sum * 100;
+
+                // for(let i = 0; i < $scope.theNumbers.length; i++) {
+                //   $scope.theNumbers[i]
+                // }
+                // var theNumbers = $scope.invoices.map(function(element) {
+                //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
+                // })
+
+              })
             }
+
         })
+
+
     }
-    $scope.getInfo()
+    $scope.getInfo(user)
 
-    // $scope.addToCart = function(count, orderid, productid) {
-    //   myService.updateProduct(count, orderid, productid).then(function(response) {
-    //     console.log(response)
-    //   })
-    // }
-    // $scope.addToCart(100, 2, 1)
 
-  //If Id's match, update the count of the product. If the id's do not match meaning that the product is not in the orders_products table, it will create a new row that contains the id of the order and the product id
-    // $scope.addToCart = function(count, order_id, product_id) {
-    //
-    //     myService.getCart().then(function(response) {
-    //         let data = response.data
-    //         var plans = $scope.allPlans
-    //         console.log(data)
-    //         console.log(plans)
-    //         var found = false;
-    //         if(data.length) {
-    //
-    //           data.forEach(function(product){
-    //             var foundPlan = plans.find(function(plan) {
-    //               return (product.product_id === product_id && product.clientid === order_id)
-    //             })
-    //
-    //             if (foundPlan && !found) {
-    //               found = true;
-    //               myService.updateProduct(count, order_id, product_id).then(function(response){
-    //                 // console.log('IT works')
-    //               })
-    //               console.log('IT works')
-    //             } else if (!found ){
-    //               myService.updateCart(order_id, product_id).then(function(response) {
-    //                 console.log(response)
-    //               })
-    //             }
-    //           })
-    //         } else {
-    //           myService.updateCart(order_id, product_id).then(function(response) {
-    //             console.log(response)
-    //           })
-    //         }
-    //
-    //
-    //
-    //     })
+    var handler = StripeCheckout.configure({
+      key: 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc',
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+      }
+    });
+
+    document.getElementById('customButton').addEventListener('click', function(e) {
+      // Open Checkout with further options:
+      handler.open({
+        name: 'Architecture Design Firm',
+        description: 'Payment For Services Rendered',
+        amount: $scope.amount
+      });
+      // data-zip-code="true"
+      e.preventDefault();
+    });
+    window.addEventListener('popstate', function() {
+  handler.close();
+});
+
+    // $scope.getFiles = function() {
+    //   console.log($scope.client)
     // }
-    // $scope.addToCart(20, 2, 2)
+    // $scope.getFiles()
 
 
 
