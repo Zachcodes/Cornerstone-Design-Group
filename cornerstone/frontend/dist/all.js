@@ -365,8 +365,6 @@ angular.module('myApp').controller('clientCtrl', function ($scope, $location, my
 
 });
 
-angular.module('myApp').controller('designCtrl', function ($scope, $location) {});
-
 angular.module('myApp').controller('contactsCtrl', function ($scope, $location, myService) {
 
   $scope.submitQuestion = function (question, email) {
@@ -377,7 +375,11 @@ angular.module('myApp').controller('contactsCtrl', function ($scope, $location, 
   };
 });
 
+angular.module('myApp').controller('designCtrl', function ($scope, $location) {});
+
 angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
+
+angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
 angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q, myService, authService, adminAuth) {
 
@@ -420,8 +422,6 @@ angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q
     });
   };
 });
-
-angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
 angular.module('myApp').factory('adminAuth', function () {
 
