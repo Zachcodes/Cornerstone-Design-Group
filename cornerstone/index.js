@@ -4,21 +4,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
 const keys = require('./keys.js')
-const connectionString = keys.connectionString;
+const connectionString = 'postgres://zacharyryanspringer@localhost/cornerstone';
 const massiveInstance = massive.connectSync({connectionString});
 const port = 3200;
 const passport = require('passport');
 const path = require('path');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keyPublishable = 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc';
+//stripe maybe
 const keySecret = keys.keySecret;
 const mandrill = require('mandrill-api/mandrill');
-const mandrill_client = new mandrill.Mandrill(keys.mandrillKey);
+// const mandrill_client = new mandrill.Mandrill(keys.mandrillKey);
 
 
 const app = module.exports = express();
 app.use(session({
-  secret: keys.sessionSecret,
+  secret: 'some-secret',
   saveUninitialized: true,
   resave: true
 }));
@@ -42,8 +43,8 @@ const controller = require('./controller.js')
 
 //Passport Strategies
 passport.use(new GoogleStrategy({
-    clientID: keys.googleId,
-    clientSecret: keys.googleSecret,
+    clientID: '10243963461-0o28oi1tcfn5n97840dhjurgc0tcqgnj.apps.googleusercontent.com',
+    clientSecret: 'lwK5oWM_BG9BtbD5NKcunsb7',
     callbackURL: "http://localhost:3200/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
