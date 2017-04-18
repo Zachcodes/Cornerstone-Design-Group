@@ -12,7 +12,7 @@ const path = require('path');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keyPublishable = 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc';
 //stripe maybe
-const keySecret = keys.keySecret;
+// const keySecret = keys.keySecret;
 const mandrill = require('mandrill-api/mandrill');
 // const mandrill_client = new mandrill.Mandrill(keys.mandrillKey);
 
