@@ -124,6 +124,6 @@ app.get('/get/questions', controller.getQuestions)
 app.delete('/delete/question/:id', controller.deleteQuestion)
 
 
-app.listen(port, function() {
+app.listen(process.env.PORT || port, function() {
   console.log(`Listening on port ${port}`)
 })
