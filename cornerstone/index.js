@@ -3,10 +3,12 @@ const session = require('express-session')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
+const port = process.env.PORT || 3200
 // const keys = require('./keys.js')
-const connectionString = 'postgres://zacharyryanspringer@localhost/cornerstone';
+const connectionString = process.env.ARCHITECTUREDATABASE;
+ // PROCESS.ENV.DATABASE
+//need to use the database on heroku to get this hosted...will need to change the connection string to whatever allows me to connect to the database on heroku
 const massiveInstance = massive.connectSync({connectionString});
-const port = 3200;
 const passport = require('passport');
 const path = require('path');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -19,13 +21,12 @@ const mandrill = require('mandrill-api/mandrill');
 
 const app = module.exports = express();
 app.use(session({
-  secret: 'some-secret',
+  secret: process.env.SESSIONSECRET,
   saveUninitialized: true,
   resave: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 
@@ -43,8 +44,8 @@ const controller = require('./controller.js')
 
 //Passport Strategies
 passport.use(new GoogleStrategy({
-    clientID: '10243963461-0o28oi1tcfn5n97840dhjurgc0tcqgnj.apps.googleusercontent.com',
-    clientSecret: 'lwK5oWM_BG9BtbD5NKcunsb7',
+    clientID: process.env.GOOGLEID,
+    clientSecret: process.env.CLIENTSECRET,
     callbackURL: "http://localhost:3200/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -124,6 +125,6 @@ app.get('/get/questions', controller.getQuestions)
 app.delete('/delete/question/:id', controller.deleteQuestion)
 
 
-app.listen(process.env.PORT || port, function() {
+app.listen(port, function() {
   console.log(`Listening on port ${port}`)
 })
