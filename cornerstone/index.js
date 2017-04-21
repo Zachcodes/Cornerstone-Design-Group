@@ -6,7 +6,7 @@ const massive = require('massive');
 const port = process.env.PORT || 3200
 const pg = require('pg');
 // const keys = require('./keys.js')
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL  ||'postgres://zacharyryanspringer@localhost/cornerstone';
  // PROCESS.ENV.DATABASE
 //need to use the database on heroku to get this hosted...will need to change the connection string to whatever allows me to connect to the database on heroku
 const massiveInstance = massive.connectSync({connectionString});
