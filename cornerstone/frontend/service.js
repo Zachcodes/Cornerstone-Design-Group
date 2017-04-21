@@ -1,6 +1,7 @@
 angular.module('myApp')
   .service('myService', function($http, authService) {
     //client service calls
+    var originUrl = process.env.ORIGINHOST
    this.getClient = function(username) {
       return $http({
         method: 'GET',
