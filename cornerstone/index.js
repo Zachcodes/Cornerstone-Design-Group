@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
 const port = process.env.PORT || 3200
+const pg = require('pg');
 // const keys = require('./keys.js')
-const connectionString = process.env.ARCHITECTUREDATABASE;
+const connectionString = process.env.DATABASE_URL;
  // PROCESS.ENV.DATABASE
 //need to use the database on heroku to get this hosted...will need to change the connection string to whatever allows me to connect to the database on heroku
 const massiveInstance = massive.connectSync({connectionString});
@@ -16,8 +17,19 @@ const keyPublishable = 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc';
 //stripe maybe
 // const keySecret = keys.keySecret;
 const mandrill = require('mandrill-api/mandrill');
-// const mandrill_client = new mandrill.Mandrill(keys.mandrillKey);
+// const mandrill_client = new mandrill.Mandrilsll(keys.mandrillKey);
 
+// pg.defaults.ssl = true;
+// pg.connect(process.env.DATABASE_URL, function(err, client) {
+//   if (err) throw err;
+//   console.log('Connected to postgres! Getting schemas...');
+//
+//   client
+//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
+//     .on('row', function(row) {
+//       console.log(JSON.stringify(row));
+//     });
+// });
 
 const app = module.exports = express();
 app.use(session({
