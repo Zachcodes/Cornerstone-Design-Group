@@ -42,14 +42,14 @@ app.use(passport.session());
 
 
 
-     
+
 
 app.set('db', massiveInstance);
 const db = app.get('db');
 app.use(express.static('./frontend'));
 app.use(bodyParser.json());
 const corsOptions = {
-     origin: process.env.ORIGINHOST ||'http://localhost:3200'
+     origin: process.env.ORIGINHOST
  };
 app.use(cors())
 const controller = require('./controller.js')
