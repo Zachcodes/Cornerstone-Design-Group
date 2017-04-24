@@ -5,7 +5,15 @@ const cors = require('cors');
 // const massive = require('massive');
 const port = process.env.PORT || 3200
 //comment out for local hostpsq
-// const pg = require('pg');
+const pg = require('pg');
+//Comment out to get local host to run
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+});
+//comment out to here
 // const client = new pg.Client()
 //comment out to here
 // const keys = require('./keys.js')
@@ -22,19 +30,6 @@ const keyPublishable = 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc';
 const mandrill = require('mandrill-api/mandrill');
 // const mandrill_client = new mandrill.Mandrilsll(keys.mandrillKey);
 
-//Comment out to get local host to run
-// pg.defaults.ssl = true;
-// pg.connect(process.env.DATABASE_URL, function(err, client) {
-//   if (err) throw err;
-//   console.log('Connected to postgres! Getting schemas...');
-//
-//   client
-//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
-//     .on('row', function(row) {
-//       console.log(JSON.stringify(row));
-//     });
-// });
-//comment out to here
 const app = module.exports = express();
 app.use(session({
   secret: process.env.SESSIONSECRET,
