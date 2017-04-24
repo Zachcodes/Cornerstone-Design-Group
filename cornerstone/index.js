@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
 const port = process.env.PORT || 3200
+//comment out for local hostpsq
 const pg = require('pg');
+// const client = new pg.Client()
+//comment out to here
 // const keys = require('./keys.js')
-const connectionString = process.env.DATABASE_URL  ||'postgres://zacharyryanspringer@localhost/cornerstone';
+// const connectionString = process.env.DATABASE_URL  ||'postgres://zacharyryanspringer@localhost/cornerstone';
  // PROCESS.ENV.DATABASE
 //need to use the database on heroku to get this hosted...will need to change the connection string to whatever allows me to connect to the database on heroku
 const massiveInstance = massive.connectSync({connectionString});
