@@ -65,7 +65,7 @@ const controller = require('./controller.js')
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLEID,
     clientSecret: process.env.CLIENTSECRET,
-    callbackURL: "http://localhost:3200/auth/google/callback"
+    callbackURL: process.env.GOOGLECALLBACK
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile)
