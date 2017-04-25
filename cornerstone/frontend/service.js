@@ -5,7 +5,6 @@ angular.module('myApp')
       return $http({
         method: 'GET',
         url: `/client/info?username=${username}`
-        // url: `http://localhost:3200/client/info?username=${username}`
       })
     },
     this.checkLogin = function(username, password) {
@@ -13,7 +12,6 @@ angular.module('myApp')
         method: 'GET',
         url: `/client/login?username=${username}&password=${password}`
 
-        // url: `http://localhost:3200/client/login?username=${username}&password=${password}`
       })
     },
     this.getFiles = function(clientid) {
@@ -21,18 +19,15 @@ angular.module('myApp')
         method: 'GET',
         url: `/client/files?clientid=${clientid}`
 
-        // url: `http://localhost:3200/client/files?clientid=${clientid}`
       })
     },
     this.getInvoices = function(clientid) {
       return $http.get(`/client/invoices?clientid=${clientid}`)
 
-      // return $http.get(`http://localhost:3200/client/invoices?clientid=${clientid}`)
     }
     this.getClientName = function() {
       return $http.get(`/client/name`)
 
-      // return $http.get('http://localhost:3200/client/name')
     },
 
     //Admin Service calls
@@ -40,7 +35,6 @@ angular.module('myApp')
       return $http({
         method: 'POST',
         url: `/new/client`,
-        // url: 'http://localhost:3200/new/client',
 
         data: {
           name,
@@ -50,14 +44,12 @@ angular.module('myApp')
     },
     this.getNewClient = function(name, email) {
       return $http.get(`/new/client/created`)
-      // return $http.get('http://localhost:3200/new/client/created')
 
     },
     this.newClientLogin = function(username, password, client_id) {
       return $http({
         method: 'POST',
         url: `/new/client/login`,
-        // url: 'http://localhost:3200/new/client/login',
 
         data: {
           username,
@@ -70,7 +62,6 @@ angular.module('myApp')
       return $http({
         method: 'POST',
         url: `/add/file`,
-        // url: 'http://localhost:3200/add/file',
         data: {
           filename,
           filelink,
@@ -82,7 +73,6 @@ angular.module('myApp')
       return $http({
         method: 'POST',
         url: `/add/invoice`,
-        // url: 'http://localhost:3200/add/invoice',
 
         data: {
           date,
@@ -100,7 +90,6 @@ angular.module('myApp')
       return $http({
         method: 'GET',
         url: `/admin/login?username=${username}&password=${password}`
-        // url: `http://localhost:3200/admin/login?username=${username}&password=${password}`
 
         })
     },
