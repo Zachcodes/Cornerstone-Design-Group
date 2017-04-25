@@ -3,7 +3,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
-const port = process.env.PORT || 3200
+const port = process.env.PORT
 //comment out for local hostpsq
 // const pg = require('pg');
 //Comment out to get local host to run
