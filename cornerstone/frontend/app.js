@@ -1,4 +1,4 @@
-angular.module('myApp', ['ui.router'])
+angular.module('myApp', ['ui.router', 'ngTouch'])
     .config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
 
@@ -84,7 +84,7 @@ angular.module('myApp', ['ui.router'])
                     myService.googleLogin().then(function(response) {
                       let data = response.data.admin
                         if(data === true) {
-                
+
                           adminAuth.getPermission()
                         }
 

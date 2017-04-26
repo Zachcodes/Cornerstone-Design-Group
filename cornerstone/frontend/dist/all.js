@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp', ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('myApp', ['ui.router', 'ngTouch']).config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('home', {
@@ -385,6 +385,8 @@ angular.module('myApp').controller('designCtrl', function ($scope, $location) {}
 
 angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
 
+angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
+
 angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q, myService, authService, adminAuth) {
 
   $scope.login = function (username, password) {
@@ -426,8 +428,6 @@ angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q
     });
   };
 });
-
-angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
 angular.module('myApp').factory('adminAuth', function () {
 
