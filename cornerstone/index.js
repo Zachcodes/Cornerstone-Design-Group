@@ -4,39 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
 const port = process.env.PORT
-//comment out for local hostpsq
-// const pg = require('pg');
-//Comment out to get local host to run
-// pg.defaults.ssl = true;
-// pg.connect(process.env.DATABASE_URL, function(err, client) {
-//   if (err) throw err;
-//   console.log('Connected to postgres! Getting schemas...');
-//   client
-//     .query('SELECT * FROM admins;')
-//     .on('row', function(row) {
-//       console.log(JSON.stringify(row));
-//     });
-//
-// });
-//comment out to here
-// const client = new pg.Client()
-//comment out to here
-// const keys = require('./keys.js')
+
 const connectionString = process.env.DATABASE_URL;
- // ||'postgres://zacharyryanspringer@localhost/cornerstone';
 
 
- // PROCESS.ENV.DATABASE
-//need to use the database on heroku to get this hosted...will need to change the connection string to whatever allows me to connect to the database on heroku
+
 const massiveInstance = massive.connectSync({connectionString});
 const passport = require('passport');
 const path = require('path');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keyPublishable = 'pk_test_PJjAAE6rMoTASJ47tf9M2zxc';
-//stripe maybe
-// const keySecret = keys.keySecret;
+
 const mandrill = require('mandrill-api/mandrill');
-// const mandrill_client = new mandrill.Mandrilsll(keys.mandrillKey);
 
 const app = module.exports = express();
 app.use(session({
@@ -55,9 +34,6 @@ app.set('db', massiveInstance);
 const db = app.get('db');
 app.use(express.static('./frontend'));
 app.use(bodyParser.json());
-// const corsOptions = {
-//      origin: process.env.ORIGINHOST
-//  };
 app.use(cors())
 const controller = require('./controller.js')
 
