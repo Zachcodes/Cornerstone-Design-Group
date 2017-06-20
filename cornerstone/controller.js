@@ -24,6 +24,7 @@ module.exports = {
       })
     },
     authenticateGoogle: function(req, res) {
+      console.log(req.user)
       let email = req.user.emails[0].value
       let displayName = req.user.displayName
       let client = false;

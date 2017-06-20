@@ -5,7 +5,7 @@ const cors = require('cors');
 const massive = require('massive');
 const port = process.env.PORT
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = 'postgres://zacharyryanspringer@localhost/cornerstone';
 
 
 
