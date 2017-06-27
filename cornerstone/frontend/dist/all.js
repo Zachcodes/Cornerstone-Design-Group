@@ -198,7 +198,6 @@ angular.module('myApp').service('myService', function ($http, authService) {
       url: '/get/questions'
     });
   }, this.deleteQuestion = function (id) {
-    console.log(id);
     return $http({
       method: 'DELETE',
       url: '/delete/question/' + id
@@ -300,15 +299,7 @@ angular.module('myApp').controller('clientCtrl', function ($scope, $location, my
 
   $scope.getInfo = function (username) {
     myService.getClient(username).then(function (response) {
-      // let data = response.data
-      // for (let i = 0; i < data.length; i++) {
-      //     if (`/portal/${data[i].name}` === $location.$$path) {
-      //         $scope.client = data[i];
-      //         break;
-      //     }
-      // }
       var data = response.data;
-      console.log(data);
       for (var i = 0; i < data.length; i++) {
         $scope.client = data[i];
         myService.getFiles($scope.client.id).then(function (response) {
@@ -317,9 +308,6 @@ angular.module('myApp').controller('clientCtrl', function ($scope, $location, my
         myService.getInvoices($scope.client.id).then(function (response) {
           $scope.theNumbers = [];
           $scope.invoices = response.data;
-          // var theNumbers = $scope.invoices.forEach(function(element) {
-          //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
-          // })
           for (var _i = 0; _i < $scope.invoices.length; _i++) {
             $scope.theNumbers.push(Number($scope.invoices[_i].total_price.replace(/[^0-9\.]+/g, "")));
           }
@@ -327,13 +315,6 @@ angular.module('myApp').controller('clientCtrl', function ($scope, $location, my
             return a + b;
           }, 0);
           $scope.amount = $scope.sum * 100;
-
-          // for(let i = 0; i < $scope.theNumbers.length; i++) {
-          //   $scope.theNumbers[i]
-          // }
-          // var theNumbers = $scope.invoices.map(function(element) {
-          //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
-          // })
         });
       }
     });
@@ -351,24 +332,16 @@ angular.module('myApp').controller('clientCtrl', function ($scope, $location, my
   });
 
   document.getElementById('customButton').addEventListener('click', function (e) {
-    // Open Checkout with further options:
     handler.open({
       name: 'Architecture Design Firm',
       description: 'Payment For Services Rendered',
       amount: $scope.amount
     });
-    // data-zip-code="true"
     e.preventDefault();
   });
   window.addEventListener('popstate', function () {
     handler.close();
   });
-
-  // $scope.getFiles = function() {
-  //   console.log($scope.client)
-  // }
-  // $scope.getFiles()
-
 });
 
 angular.module('myApp').controller('contactsCtrl', function ($scope, $location, myService) {
@@ -384,8 +357,6 @@ angular.module('myApp').controller('contactsCtrl', function ($scope, $location, 
 angular.module('myApp').controller('designCtrl', function ($scope, $location) {});
 
 angular.module('myApp').controller('homeCtrl', function ($scope, $location) {});
-
-angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
 angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q, myService, authService, adminAuth) {
 
@@ -422,12 +393,11 @@ angular.module('myApp').controller('portalCtrl', function ($scope, $location, $q
 
 
   $scope.googleLogin = function () {
-    console.log('Firing off function');
-    myService.googleLogin().then(function (response) {
-      console.log(response);
-    });
+    myService.googleLogin().then(function (response) {});
   };
 });
+
+angular.module('myApp').controller('projectCtrl', function ($scope, $location) {});
 
 angular.module('myApp').factory('adminAuth', function () {
 

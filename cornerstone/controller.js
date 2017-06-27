@@ -1,4 +1,5 @@
 var db = require('./index.js').get('db')
+var bcrypt = require('bcrypt')
 module.exports = {
     getClientInfo: function(req, res) {
       db.get_clients_info(req.query.username, function(err, info) {
@@ -24,7 +25,6 @@ module.exports = {
       })
     },
     authenticateGoogle: function(req, res) {
-      console.log(req.user)
       let email = req.user.emails[0].value
       let displayName = req.user.displayName
       let client = false;

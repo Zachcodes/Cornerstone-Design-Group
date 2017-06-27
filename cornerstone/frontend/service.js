@@ -119,7 +119,6 @@ angular.module('myApp')
       })
     },
     this.deleteQuestion = function(id) {
-      console.log(id)
         return $http({
           method: 'DELETE',
           url: `/delete/question/${id}`
