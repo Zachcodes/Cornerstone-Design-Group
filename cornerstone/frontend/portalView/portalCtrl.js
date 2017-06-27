@@ -41,9 +41,8 @@ angular.module('myApp').controller('portalCtrl', function($scope, $location, $q,
 
 
     $scope.googleLogin = function() {
-      console.log('Firing off function')
       myService.googleLogin().then(function(response) {
-        console.log(response)
+
       });
     }
 

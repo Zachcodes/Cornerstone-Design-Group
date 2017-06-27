@@ -5,15 +5,7 @@ angular.module('myApp').controller('clientCtrl', function($scope, $location, myS
 
     $scope.getInfo = function(username) {
         myService.getClient(username).then(function(response) {
-            // let data = response.data
-            // for (let i = 0; i < data.length; i++) {
-            //     if (`/portal/${data[i].name}` === $location.$$path) {
-            //         $scope.client = data[i];
-            //         break;
-            //     }
-            // }
             let data = response.data
-            console.log(data)
             for(let i = 0; i< data.length; i++) {
               $scope.client = data[i];
               myService.getFiles($scope.client.id).then(function(response){
@@ -22,22 +14,11 @@ angular.module('myApp').controller('clientCtrl', function($scope, $location, myS
               myService.getInvoices($scope.client.id).then(function(response) {
                 $scope.theNumbers = [];
                 $scope.invoices = response.data
-                // var theNumbers = $scope.invoices.forEach(function(element) {
-                //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
-                // })
                 for(let i = 0; i < $scope.invoices.length; i++) {
                   $scope.theNumbers.push(Number($scope.invoices[i].total_price.replace(/[^0-9\.]+/g,"")))
                 }
                 $scope.sum = $scope.theNumbers.reduce((a, b) => a + b, 0);
                 $scope.amount = $scope.sum * 100;
-
-                // for(let i = 0; i < $scope.theNumbers.length; i++) {
-                //   $scope.theNumbers[i]
-                // }
-                // var theNumbers = $scope.invoices.map(function(element) {
-                //   Number(element.total_price.replace(/[^0-9\.]+/g,""))
-                // })
-
               })
             }
 
@@ -59,25 +40,16 @@ angular.module('myApp').controller('clientCtrl', function($scope, $location, myS
     });
 
     document.getElementById('customButton').addEventListener('click', function(e) {
-      // Open Checkout with further options:
       handler.open({
         name: 'Architecture Design Firm',
         description: 'Payment For Services Rendered',
         amount: $scope.amount
       });
-      // data-zip-code="true"
       e.preventDefault();
     });
     window.addEventListener('popstate', function() {
   handler.close();
 });
-
-    // $scope.getFiles = function() {
-    //   console.log($scope.client)
-    // }
-    // $scope.getFiles()
-
-
 
 
 })

@@ -1,6 +1,7 @@
 #main {
   background: url("../img/background-3.jpg");
   background-size: cover;
+  background-attachment: fixed;
   min-height: 100vh;
   padding-bottom: 150px;
   padding-left: 0px;
