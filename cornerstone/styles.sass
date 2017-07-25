@@ -1,17 +1,21 @@
+.navbar
+  margin-bottom: 0px !important
+.navbar-inverse
+  background-color: rgba(34, 34, 34, 0.64) !important
 #main
   background: url('../img/background-3.jpg')
   background-size: cover
   background-attachment: fixed
   min-height: 100vh
-  padding-bottom: 150px
   padding-left: 0px
   padding-right: 0px
 
-#header
-  background-color: rgba(0, 0, 0, 0.42)
-  padding-top: 28px
-  padding-bottom: 28px
-  margin-bottom: 130px
+.header-column-left
+  display: flex
+  justify-content: flex-start
+.header-column-right
+  display: flex
+  justify-content: flex-end
 
 #dropdown-hamburger
   margin-top: 80px
@@ -70,70 +74,33 @@
   margin-top: -210px
   position: absolute
   margin-left: 1200px
-
-.main-container-about
+.home-main-row
+  min-height: 100vh
   display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 90px
-
-.main-container-design
+  align-items: center
+.portal-main-row
+  min-height: 100vh
   display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 90px
-
-.main-container-contact
+  align-items: center
+.project-main-row
+  min-height: 100vh
   display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 90px
-
-.main-container-portal
+  align-items: center
+  margin-top: 50px
+.contact-main-row
+  min-height: 100vh
   display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
-.main-container-project
+  align-items: center
+.about-main-row
+  min-height: 100vh
   display: flex
+  align-items: center
   flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
-.main-container-residential
+.design-main-row
+  min-height: 100vh
   display: flex
+  align-items: center
   flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
-.main-container-institutional
-  display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
-.main-container-commercial
-  display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
-.main-container-client
-  display: flex
-  flex-direction: column
-  width: 75%
-  margin-top: -30px
-  margin-left: 13px
-
 .about-underline
   text-decoration: underline
 
@@ -279,10 +246,11 @@ a:visited
 
 
 #architecture-design
-  color: rgba(234, 233, 233, 0.79)
-  margin-left: 46px
+  color: white
   font-size: 25px
-
+  font-family: "Times New Roman", Times, serif
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+  cursor: pointer
 
 #home-container
   background-color: #000000
@@ -299,13 +267,6 @@ a:visited
   margin-top: 7px
   background-color: #4c6fb6
   color: white
-
-#container-portal
-  margin-top: 85px
-  min-height: 350px
-
-#container-client
-  margin-top: 85px
 
 #client-row
   margin-top: 35px
@@ -326,9 +287,12 @@ a:visited
   margin-top: 10px
   margin-bottom: 10px
 #front-nav
-  color: rgba(234, 233, 233, 0.79)
+  color: white
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+  font-family: Georgia, serif
   font-size: 20px
   margin-top: 6px
+  cursor: pointer
 
 #front-page-text
   font-size: 15px
@@ -430,9 +394,6 @@ a:visited
 @media (max-width: 767px)
   #front-page-image
     height: 450px
-  #body-padding
-    padding-right: 0px
-    padding-left: 0px
 @media (max-width: 628px) and (min-width: 411px)
   #front-page-image
     height: 400px
